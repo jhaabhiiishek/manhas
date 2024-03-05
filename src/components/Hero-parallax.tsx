@@ -108,11 +108,15 @@ export const Header = () => {
       <h1 className="text-5xl  md:text-7xl font-bold dark:text-white">
         The Ultimate <br /> development studio
       </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
+      <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200 mb-16">
         We build beautiful products with the latest technologies and frameworks.
         We are a team of passionate developers and designers that love to build
         amazing products.
       </p>
+      <Link href={"#services"} className="border bg-black text-xs min-[350px]:text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white p-4 rounded-full">
+          <span className="text-lg">Explore Services</span>
+          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />
+        </Link>
     </div>
   );
 };

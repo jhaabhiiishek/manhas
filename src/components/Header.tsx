@@ -9,6 +9,7 @@ import {
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 
+
 export const FloatingNav = ({
   navItems,
   className,
@@ -25,8 +26,6 @@ export const FloatingNav = ({
   const [visible, setVisible] = useState(false);
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
-    // Check if current is not undefined and is a number
-	console.log("current", current)
     if (typeof current === "number") {
       let direction = current! - scrollYProgress.getPrevious()!;
 
