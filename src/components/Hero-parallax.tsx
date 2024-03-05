@@ -150,7 +150,7 @@ export const ProductCard = ({
           </h2>
           <Image
             src={product.thumbnail}
-            className="w-1/4 rounded bg-white rounded-lg p-5 mb-5"
+            className="w-1/4 bg-white rounded-lg p-5 mb-5"
             
             alt={product.title}
           />
