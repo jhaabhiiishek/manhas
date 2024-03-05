@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
+        <main style={{maxWidth:"100%",overflowX:"hidden"}}>
           <FloatingNav navItems={navItems}/>
           {children}
         </main>

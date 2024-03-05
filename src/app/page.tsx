@@ -57,7 +57,7 @@ export const products = [
 
 export default function Home() {
   return (
-    <main className="overflow-hidden flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="overflow-hidden flex min-h-screen flex-col items-center justify-between p-2">
       <HeroParallax products={products} />
     </main>
   );
