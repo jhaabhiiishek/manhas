@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { FloatingNav } from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const navItems = [
+    {
+      name: "Home",
+      link: "/",
+      // icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    },
+    {
+      name: "About",
+      link: "/about",
+      // icon: <IconUser className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    },
+    {
+      name: "Contact",
+      link: "/contact",
+      // icon: (
+        // <IconMessage className="h-4 w-4 text-neutral-500 dark:text-white" />
+      // ),
+    },
+  ];
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <main>
+          <FloatingNav navItems={navItems}/>
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
