@@ -2,19 +2,20 @@
 import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { FaWhatsapp, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase/config.js"; // Assume Firebase is used for MongoDB-like structure
+
+import { db } from "../../../../../firebase/config"; // Assume Firebase is used for MongoDB-like structure
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import "../../styles/datepicker.module.css"
+import "../../../../../../styles/datepicker.module.css"
 import Image from "next/image";
 import inst from "/public/img1.jpg";
 import inst2 from "/public/img2.jpg";
 import inst3 from "/public/img3.jpg";
 import inst4 from "/public/img4.jpg";
-import inst5 from "/public/img5.jpg";
+import inst5 from "/public/img5.jpg"; 
 import inst6 from "/public/img6.jpg";
 import inst7 from "/public/img7.jpg";
 import inst8 from "/public/img8.jpg";
@@ -25,12 +26,17 @@ import inst12 from "/public/img12.jpg";
 import inst13 from "/public/img13.jpg";
 import inst14 from "/public/img14.jpg";
 import inst15 from "/public/img15.jpg";
-import {sendMail} from"../../lib/send-mail"
+import {sendMail} from"../../../../../../lib/send-mail"
 
-export default function ServiceCard(){
-  const searchParams = useSearchParams();
-  const customProps = Object.fromEntries(searchParams.entries());
 
+interface Params {
+  name: string;
+  about: string;
+  rate: number;
+  exptime: string;
+}
+
+export default function ServiceCard({params}: {params: Params}) {
   const [userDetails, setUserDetails] = useState({
     name: "",
     email: "",
@@ -45,7 +51,7 @@ export default function ServiceCard(){
       about: "AC installation involves setting up a new or relocated air conditioner, including connecting refrigerant lines, electrical wiring, and ensuring proper drainage. The unit must be securely mounted and positioned for optimal airflow and cooling efficiency. Professional installation ensures the AC operates effectively, prevents leaks or electrical hazards, and extends the unit's lifespan. Regular service checks post-installation help maintain efficiency.",
       rate: 799,
       imgSrc: inst6,
-      expectedTime: "1 hours"
+      expectedTime: "1-2 hours"
     },
     {
       name: "AC Deep Cleaning Service",
@@ -64,7 +70,7 @@ export default function ServiceCard(){
     {
       name: "AC Water Leakage issue",
       about: "Water leakage from an AC unit often results from clogged condensate drains, improper installation, or a malfunctioning condensate pump. Left unchecked, this issue can cause water damage and mold growth. Fixing the water leakage involves clearing the drain line, checking for leaks, and ensuring proper installation. Timely repairs help maintain the unit's efficiency and prevent damage to the surrounding area.",
-      rate: 25,
+      rate: 699,
       imgSrc: inst4,
       expectedTime: "1-3 hours"
     },
@@ -140,10 +146,8 @@ export default function ServiceCard(){
     },
   ];
 
-  const [selectedService, setSelectedService] = useState(customProps.name); // Example service
-  const [bookingMessage, setBookingMessage] = useState("");
-  const router = useRouter();
 
+  const [bookingMessage, setBookingMessage] = useState("");
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -191,7 +195,7 @@ export default function ServiceCard(){
       }
       const bookingData = {
         ...userDetails,
-        service: selectedService,
+        service: params.name.replaceAll("_"," ").replaceAll("%2C",","),
         bookedAt: new Date().toLocaleDateString(),
       };
 
@@ -199,7 +203,7 @@ export default function ServiceCard(){
       setBookingMessage("Booking successful!");
       setTimeout(() => setBookingMessage(""), 5000);
       var sub = "Contact Query Filled by "+userDetails.name
-      var mess = "Name: "+userDetails.name+" "+"\nEmail: "+userDetails.email+"\nMobile: "+userDetails.phone+"\nMessage: "+userDetails.slot+"\nLocation: "+userDetails.location+"\n\n\n"+"Service: "+selectedService+"\nBooked On: "+new Date().toLocaleDateString()+ "\nPrice: Rs."+customProps.rate +"\n\n\n"+"Please reach out to the customer as soon as possible."
+      var mess = "Name: "+userDetails.name+" "+"\nEmail: "+userDetails.email+"\nMobile: "+userDetails.phone+"\nMessage: "+userDetails.slot+"\nLocation: "+userDetails.location+"\n\n\n"+"Service: "+params.name.replaceAll("_"," ").replaceAll("%2C",",")+"\nBooked On: "+new Date().toLocaleDateString()+ "\nPrice: Rs."+params.rate +"\n\n\n"+"Please reach out to the customer as soon as possible."
       const response = await sendMail({
         email: userDetails.email,
         subject: sub,
@@ -225,119 +229,119 @@ export default function ServiceCard(){
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-8 min-h-screen text-white p-4">
-      <div className="bg-black rounded-lg shadow-lg p-6 max-w-xl w-full xl:flex xl:flex-row xl:w-fit xl:max-w-4xl">
-      <div className="xl:w-1/2 xl:flex xl:flex-col xl:justify-between">
+      <div className="flex flex-col items-center justify-center mt-8 min-h-screen text-white p-4">
+        <div className="bg-black rounded-lg shadow-lg p-6 max-w-xl w-full xl:flex xl:flex-row xl:w-fit xl:max-w-4xl">
+        <div className="xl:w-1/2 xl:flex xl:flex-col xl:justify-between">
 
-        <h1 className="text-4xl font-bold mb-4 text-center mt-8 text-nowrap bg-clip-text text-transparent bg-gradient-to-r  from-blue-700   to-pink-400">Manhas AC Services</h1>
-        <h2 className="text-3xl font-bold mb-4 mt-8">{customProps.name}</h2>
-        <p className="text-gray-400 mb-2">{customProps.about}</p>
-        <div className="text-sm mb-4">
-          <p className="font-medium">Availability:</p>
-          <ul className="list-disc pl-5 py-2">
-            <li className="py-1 font-extralight">Monday - Friday: 7:00 AM - 9:00 PM</li>
-            <li className="py-1 font-extralight">Saturday: 10:00 AM - 4:00 PM</li>
-            <li className="py-1 font-extralight">Sunday: Closed</li>
-          </ul>
+          <h1 className="text-4xl font-bold mb-4 text-center mt-8 text-nowrap bg-clip-text text-transparent bg-gradient-to-r  from-blue-700   to-pink-400">Manhas AC Services</h1>
+          <h2 className="text-3xl font-bold mb-4 mt-8">{params.name.replaceAll("_"," ").replaceAll("%2C",",")}</h2>
+          <p className="text-gray-400 mb-2">{params.about.replaceAll("_"," ").replaceAll("%2C",",")}</p>
+          <div className="text-sm mb-4">
+            <p className="font-medium">Availability:</p>
+            <ul className="list-disc pl-5 py-2">
+              <li className="py-1 font-extralight">Monday - Friday: 7:00 AM - 9:00 PM</li>
+              <li className="py-1 font-extralight">Saturday: 10:00 AM - 4:00 PM</li>
+              <li className="py-1 font-extralight">Sunday: Closed</li>
+            </ul>
+          </div>
+          <div className="text-lg font-semibold mb-2">Average Time: <span className="text-blue-400">{params.exptime.replaceAll("_"," ").replaceAll("%2C",",")}</span></div>
+          <div className="text-lg font-semibold mb-2">Price: <span className="text-green-500">Rs. {params.rate}</span></div>
+
         </div>
-        <div className="text-lg font-semibold mb-2">Average Time: <span className="text-blue-400">{customProps.expTime}</span></div>
-        <div className="text-lg font-semibold mb-2">Price: <span className="text-green-500">Rs. {customProps.rate}</span></div>
+        <div className="xl:w-1/2 xl:flex xl:flex-col xl:pl-5">
+          <div className="flex flex-col gap-2 mb-4">
+            <Image
+              src={services.find(service=>service.name==params.name.replaceAll("_"," ").replaceAll("%2C",","))?.imgSrc||inst}
+              height="1000"
+              width="1000"
+              className="h-48 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+              alt="thumbnail"
+              />
+          <h2 className="text-3xl font-bold mb-4 text-center mt-8">Booking Form</h2>
+            <input
+              type="text"
+              placeholder="Your Name"
+              className="rounded-md p-2 text-black"
+              value={userDetails.name}
+              onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
+              />
+            <input
+              type="email"
+              placeholder="Your Email"
+              className="rounded-md p-2 text-black"
+              value={userDetails.email}
+              onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
+              />
+            <input
+              type="text"
+              placeholder="Phone Number"
+              className="rounded-md p-2 text-black"
+              value={userDetails.phone}
+              onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })}
+              />
+            {/* <input
+              type="text"
+              placeholder="Preferred Days"
+              className="rounded-md p-2 text-black"
+              value={userDetails.slot}
+              onChange={(e) => setUserDetails({ ...userDetails, slot: e.target.value })}
+              /> */}
+            <div>
+              <h2>Select a date</h2>
+              <DatePicker
+                selected={userDetails.slot?new Date(userDetails.slot):new Date()} // Set the selected date
+                onChange={handleDateChange}
+                minDate={new Date(today)}       // Min date: today
+                maxDate={maxDate}     // Max date: 2 months from today
+                dateFormat="dd/MM/yyyy"
+                className="rounded-md p-2 text-black w-full"
+                placeholderText="Select a date"
+                />
+              {userDetails.slot && (
+                <p>Selected Date: {userDetails.slot}</p> // Display the selected date
+              )}
+            </div>
+          </div>
 
-      </div>
-      <div className="xl:w-1/2 xl:flex xl:flex-col xl:pl-5">
-        <div className="flex flex-col gap-2 mb-4">
-          <Image
-            src={services.find(service=>service.name==customProps.name)?.imgSrc||inst}
-            height="1000"
-            width="1000"
-            className="h-48 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-            alt="thumbnail"
-          />
-        <h2 className="text-3xl font-bold mb-4 text-center mt-8">Booking Form</h2>
-          <input
-            type="text"
-            placeholder="Your Name"
-            className="rounded-md p-2 text-black"
-            value={userDetails.name}
-            onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            className="rounded-md p-2 text-black"
-            value={userDetails.email}
-            onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Phone Number"
-            className="rounded-md p-2 text-black"
-            value={userDetails.phone}
-            onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value })}
-          />
-          {/* <input
-            type="text"
-            placeholder="Preferred Days"
-            className="rounded-md p-2 text-black"
-            value={userDetails.slot}
-            onChange={(e) => setUserDetails({ ...userDetails, slot: e.target.value })}
-          /> */}
-          <div>
-            <h2>Select a date</h2>
-            <DatePicker
-              selected={userDetails.slot?new Date(userDetails.slot):new Date()} // Set the selected date
-              onChange={handleDateChange}
-              minDate={new Date(today)}       // Min date: today
-              maxDate={maxDate}     // Max date: 2 months from today
-              dateFormat="dd/MM/yyyy"
-              className="rounded-md p-2 text-black w-full"
-              placeholderText="Select a date"
-            />
-            {userDetails.slot && (
-              <p>Selected Date: {userDetails.slot}</p> // Display the selected date
-            )}
+          <button
+            onClick={handleBooking}
+            className="w-full bg-green-500 text-white rounded-md p-2 hover:bg-green-600 transition"
+            >
+            Book Slot
+          </button>
+
+          {bookingMessage && (
+            <div className="mt-4 text-center text-yellow-400 font-semibold">
+              {bookingMessage}
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row  justify-between items-center mt-6">
+            <a
+              href="tel:+123456789"
+              className="flex items-center w-full sm:w-auto gap-2 my-2 bg-gray-700 text-white rounded-md p-2 hover:bg-gray-600 transition"
+              >
+              <FaPhoneAlt /> Call Technician
+            </a>
+            <a
+              href="https://wa.me/123456789"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center w-full sm:w-auto gap-2 my-2 bg-gray-700 text-white rounded-md p-2 hover:bg-gray-600 transition"
+              >
+              <FaWhatsapp /> WhatsApp
+            </a>
+            <a
+              href="https://www.google.com/maps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center w-full sm:w-auto gap-2 my-2 bg-gray-700 text-white rounded-md p-2 hover:bg-gray-600 transition"
+              >
+              <FaMapMarkerAlt /> Location
+            </a>
           </div>
         </div>
-
-        <button
-          onClick={handleBooking}
-          className="w-full bg-green-500 text-white rounded-md p-2 hover:bg-green-600 transition"
-        >
-          Book Slot
-        </button>
-
-        {bookingMessage && (
-          <div className="mt-4 text-center text-yellow-400 font-semibold">
-            {bookingMessage}
-          </div>
-        )}
-
-        <div className="flex flex-col sm:flex-row  justify-between items-center mt-6">
-          <a
-            href="tel:+123456789"
-            className="flex items-center w-full sm:w-auto gap-2 my-2 bg-gray-700 text-white rounded-md p-2 hover:bg-gray-600 transition"
-          >
-            <FaPhoneAlt /> Call Technician
-          </a>
-          <a
-            href="https://wa.me/123456789"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center w-full sm:w-auto gap-2 my-2 bg-gray-700 text-white rounded-md p-2 hover:bg-gray-600 transition"
-          >
-            <FaWhatsapp /> WhatsApp
-          </a>
-          <a
-            href="https://www.google.com/maps"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center w-full sm:w-auto gap-2 my-2 bg-gray-700 text-white rounded-md p-2 hover:bg-gray-600 transition"
-          >
-            <FaMapMarkerAlt /> Location
-          </a>
         </div>
       </div>
-      </div>
-    </div>
   );
 };

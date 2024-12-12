@@ -47,7 +47,7 @@ export default function Services() {
       expectedTime: "1-3 hours"
     },
     {
-      name: "AC Freezing Up / Ice Forming Issue",
+      name: "AC Freezing Up or Ice Forming Issue",
       about: "Freezing up or ice formation on the AC unit's coils indicates problems such as low refrigerant levels, restricted airflow, or dirty coils. This reduces cooling efficiency and can damage the unit if left unchecked. Resolving this issue involves checking refrigerant levels, cleaning the coils, and ensuring proper airflow, restoring the unit's cooling capacity and preventing further ice formation.",
       rate: 699,
       imgSrc: inst5,
@@ -68,7 +68,7 @@ export default function Services() {
       expectedTime: "1-2 hours"
     },
     {
-      name: "AC Less / No Cooling Issue",
+      name: "AC Less or No Cooling Issue",
       about: "If an AC unit is providing little to no cooling, the issue may be due to low refrigerant levels, clogged filters, or malfunctioning components like the compressor or fan. This problem affects comfort and cooling efficiency. Diagnosing and fixing the underlying issue, whether it involves refilling refrigerant or replacing faulty parts, ensures that the AC can cool effectively and maintain the desired indoor temperature.",
       rate: 299,
       imgSrc: inst12,

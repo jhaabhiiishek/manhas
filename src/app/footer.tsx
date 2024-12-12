@@ -17,13 +17,13 @@ export default function Footer() {
       />
       <div className="mt-6" style={{ display: "flex", justifyContent: "center", gap: "15px", marginBottom: "10px" }}>
         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-          <Image src={twitter.src} alt="Twitter" style={{ width: "20px",filter:"invert(1)" }}/>
+          <Image src={twitter.src} width={20} height={20} alt="Twitter" style={{ width: "20px",filter:"invert(1)" }}/>
         </a>
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-          <Image src={facebook.src} alt="Facebook" style={{ width: "20px",filter:"invert(1)" }} />
+          <Image src={facebook.src} alt="Facebook"  width={20} height={20}  style={{ width: "20px",filter:"invert(1)" }} />
         </a>
         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-          <Image src={instagram.src} alt="Instagram" style={{ width: "20px",filter:"invert(1)" }} />
+          <Image src={instagram.src} alt="Instagram"  width={20} height={20}  style={{ width: "20px",filter:"invert(1)" }} />
         </a>
       </div>
       <div className="mt-6" style={{color:"white"}}>© Copyright {new Date().getFullYear()}, All Rights Reserved</div>

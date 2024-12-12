@@ -10,6 +10,8 @@ import React, {
   useEffect,
 } from "react";
 import { useRouter } from 'next/navigation'
+import Link from "next/link";
+
 const MouseEnterContext = createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
 >(undefined);
@@ -40,7 +42,7 @@ export const CardContainer = ({
     if (!containerRef.current) return;
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
@@ -89,19 +91,32 @@ export const CardBody = ({
   route?:string;
   customProps?:any;
 }) => {
-  
-  const router = useRouter()
- 
+  const router = useRouter();
+
   return (
-    <div
-      className={cn(
-        "h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
-        className
-      )}
-      onClick={()=>router.push(`${route}?${new URLSearchParams(customProps).toString()}`)}
-    >
-      {children}
-    </div>
+    <Link href={`/services/${customProps.name.replaceAll(" ","_")}/${customProps.about.replaceAll(" ","_")}/${customProps.rate.toString().replaceAll(" ","_")}/${customProps.expTime.replaceAll(" ","_")}`}>
+      <div
+        className={cn(
+          "h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
+          className
+        )}
+        onClick={()=>{
+          if (route && customProps) {
+
+
+
+            // dispatch(setServState({
+            //   serviceName: customProps.name,
+            //   serviceAbout: customProps.about,
+            //   serviceRate: customProps.rate.toString(),
+            //   serviceExpectedTime: customProps.expTime
+            // }));
+          }
+        }}
+      >
+        {children}
+      </div>
+    </Link>
   );
 };
 
