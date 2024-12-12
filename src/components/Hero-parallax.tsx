@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export const HeroParallax = ({
   products,
@@ -16,7 +17,7 @@ export const HeroParallax = ({
   products: {
     title: string;
     link: string;
-    thumbnail: string;
+    thumbnail: string|StaticImport;
 	text: string;
   }[];
 }) => {
@@ -44,7 +45,7 @@ export const HeroParallax = ({
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
+    useTransform(scrollYProgress, [0, 0.1], [0.1, 1]),
     springConfig
   );
   const rotateZ = useSpring(
@@ -58,7 +59,7 @@ export const HeroParallax = ({
   return (
     <div
       ref={ref}
-      className="w-full sm:max-w-fit h-[300vh] py-40 antialiased relative flex flex-col self-auto [perspective:500px] [transform-style:preserve-3d]"
+      className="w-full sm:max-w-fit h-[200vh] py-40 antialiased relative flex flex-col self-auto [perspective:500px] [transform-style:preserve-3d]"
     >
       <Header />
       <motion.div
@@ -106,17 +107,17 @@ export const Header = () => {
   return (
     <div className="w-full sm:max-w-7xl relative sm:mx-auto py-20 md:py-40 px-4 sm:w-full  left-0 top-0 z-50">
       <h1 className="text-5xl  md:text-7xl font-bold dark:text-white">
-        The Ultimate <br /> development studio
+        Manhas Ac Services <br /> Jammu
       </h1>
       <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200 mb-16">
         We build beautiful products with the latest technologies and frameworks.
         We are a team of passionate developers and designers that love to build
         amazing products.
       </p>
-      <Link href={"#services"} className="border bg-black text-xs min-[350px]:text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white p-4 rounded-full">
-          <span className="text-lg">Explore Services</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />
-        </Link>
+      <Link href={"#services"} className="border bg-black text-xs min-[350px]:text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white p-4 rounded-full px-6 z-5000 hover:bg-black">
+        <span className="text-lg">Explore Services</span>
+        <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />
+      </Link>
     </div>
   );
 };
@@ -147,10 +148,10 @@ export const ProductCard = ({
     >
       <Link
         href={product.link}
-        style={{maxHeight:"fit-content"}}
+        style={{maxHeight:"fit-content",zIndex:"1"}}
         className="block group-hover/product:shadow-2xl"
       >
-        <div style={{maxHeight:"fit-content"}} className="object-cover object-left-top absolute w-full inset-0 bg-gray-300 rounded-lg p-3 px-6  group-hover/product:bg-gradient-to-r  group-hover/product:from-blue-500   group-hover/product:to-pink-300">
+        <div style={{maxHeight:"fit-content"}} className="object-cover z-0 object-left-top absolute w-full inset-0 bg-gray-300 rounded-lg p-3 px-6  group-hover/product:bg-gradient-to-r  group-hover/product:from-blue-500   group-hover/product:to-pink-300">
           <h2 className="left-4 group-hover/product:opacity-100 text-black text-4xl py-4 font-light  group-hover/product:text-white">
             {product.title}
           </h2>
