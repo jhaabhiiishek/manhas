@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -140,19 +140,15 @@ export default function ServiceCard(){
     },
   ];
 
-  useEffect(()=>{
-
-  })
-
-
-
-
   const [selectedService, setSelectedService] = useState(customProps.name); // Example service
   const [bookingMessage, setBookingMessage] = useState("");
   const router = useRouter();
 
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    if (navigator.geolocation) {
+    setIsClient(true);
+    if (typeof window !== 'undefined' &&navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -171,7 +167,7 @@ export default function ServiceCard(){
   }, []);
 
   const handleBooking = async () => {
-    if (navigator.geolocation) {
+    if (isClient && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -215,6 +211,12 @@ export default function ServiceCard(){
       setBookingMessage("Booking failed. Try again later.");
     }
   };
+
+  if (!isClient) {
+    return null;
+  }
+
+
   const today = new Date().toLocaleDateString();
   const maxDate = new Date();
   maxDate.setMonth(new Date(today).getMonth() + 2);
