@@ -133,7 +133,7 @@ export default function Services() {
             //     <p>Expected Time: {service.expectedTime}</p>
             //   </div>
             // </div>
-            <ThreeDCardDemo imgsrc={service.imgSrc ?? ''} name ={service.name} about={service.about} rate={service.rate} expTime={service.expectedTime}/>
+            <ThreeDCardDemo key={index} imgsrc={service.imgSrc ?? ''} name ={service.name} about={service.about} rate={service.rate} expTime={service.expectedTime}/>
           ))}
         </section>
       </div>
