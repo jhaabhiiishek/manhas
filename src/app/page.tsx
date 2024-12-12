@@ -1,5 +1,4 @@
 import React from "react";
-import { HeroParallax } from "../components/Hero-parallax";
 // import logo from "/public/icons.jpg"
 import logo from "/public/google.png"
 import mlogo from "/public/maintenance.png"
